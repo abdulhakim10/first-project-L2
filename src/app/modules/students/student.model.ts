@@ -13,6 +13,7 @@ const userSchema = new Schema<UserName>({
     required: [true, "First name is required"],
     trim: true,
     maxlength: [20, "First Name can not be more than 20 charecters"],
+    // custom validation
     validate: {
       validator: function (value: string) {
         const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
@@ -27,6 +28,7 @@ const userSchema = new Schema<UserName>({
   lastName: {
     type: String,
     required: [true, "Last name is required"],
+    // third party npm validator
     validate: {
       validator: (value: string) => validator.isAlpha(value),
       message: "{VALUE} is not valid",
