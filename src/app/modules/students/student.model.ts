@@ -95,7 +95,6 @@ const studentSchema = new Schema<TStudent, StudentModel>({
   password: {
     type: String,
     required: [true, "Password is required"],
-    unique: true,
   },
   name: {
     type: userSchema,
@@ -146,8 +145,13 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     enum: ["active", "blocked"],
     default: "active",
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
+// -----Document middleware-----
 // pre save middleware/hook : will work on create() save()
 studentSchema.pre("save", async function (next) {
   //  password hashing
@@ -155,14 +159,31 @@ studentSchema.pre("save", async function (next) {
   const user = this;
   user.password = await bcrypt.hash(
     user.password,
-    Number(config.bcrypt_salt_round),
+    Number(config.bcrypt_salt_round)
   );
   next();
 });
 
 // post save middleware/hook
-studentSchema.post("save", function () {
-  console.log(this, "post hook: we saved our data");
+studentSchema.post("save", function (doc, next) {
+  doc.password = "";
+  next();
+});
+
+// ------Quyery middleware------
+studentSchema.pre("find", async function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+studentSchema.pre("findOne", async function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+studentSchema.pre("aggregate", async function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
 });
 
 // ---- for custom static method -----
