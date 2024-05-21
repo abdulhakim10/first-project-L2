@@ -16,7 +16,7 @@ const createStudent = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: "Something went wrong.",
-      data: err,
+      error: err,
     });
   }
 };
@@ -33,7 +33,7 @@ const getAllStudents = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: "Something went wrong.",
-      data: err,
+      error: err,
     });
   }
 };
@@ -51,6 +51,7 @@ const getSingleStudentById = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: "Something went wrong.",
+      error: err,
     });
   }
 };
@@ -69,6 +70,7 @@ const deleteSingleStudentById = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: "Something went wrong",
+      error: err,
     });
   }
 };
