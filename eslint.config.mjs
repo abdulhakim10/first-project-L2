@@ -1,6 +1,7 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
+
 export default [
   {
     ignores: ["**/node_modules/", ".dist/"],
@@ -9,6 +10,7 @@ export default [
         ...globals.browser,
         process: "readonly",
       },
+      
     },
     rules: {
       "no-unused-vars": "error",
@@ -16,6 +18,8 @@ export default [
       "prefer-const": "error",
       "no-console": "warn",
       "no-undef": "error",
+      "parser": "babel-eslint"
+
     },
   },
   pluginJs.configs.recommended,
