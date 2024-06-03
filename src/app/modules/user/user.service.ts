@@ -17,12 +17,6 @@ const createStudentIntoDB = async (password: string, studentData: TStudent) => {
   // set manually generated id
   userData.id = "2030100001";
 
-  //   const isExist = await User.findOne({ id: userData.id });
-
-  //   if (isExist) {
-  //     return "already exist";
-  //   }
-
   //   create a user
   const newUser = await User.create(userData); // built in static method
 

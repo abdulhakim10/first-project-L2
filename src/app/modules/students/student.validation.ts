@@ -33,27 +33,36 @@ const localGuardianValidationShema = z.object({
 });
 
 // Student Schema
-const studentValidationShema = z.object({
-  id: z.string().min(1, "Student ID is required"),
-  password: z
-    .string()
-    .min(6, "Password should be atleast 6 charecters")
-    .max(20, "Password shouldn't be more than 20 charecters"),
-  name: userNameValidationSchema,
-  gender: z.enum(["male", "female"]),
-  dateOfBirth: z.string().optional(),
-  email: z.string().email("Invalid email format").min(1, "Email is required"),
-  contactNo: z.string().min(1, "Contact number is required"),
-  emergencyContactNo: z.string().min(1, "Emergency contact number is required"),
-  bloodGroup: z
-    .enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"])
-    .optional(),
-  presentAddress: z.string().min(1, "Present address is required"),
-  permanentAddress: z.string().min(1, "Permanent address is required"),
-  guardian: guardianValidationSchema,
-  localGuardian: localGuardianValidationShema,
-  profileImage: z.string().optional(),
-  isDeleted: z.boolean().default(false),
+const createStudentValidationShema = z.object({
+  body: z.object({
+    password: z
+      .string()
+      .min(6, "Password should be atleast 6 charecters")
+      .max(20, "Password shouldn't be more than 20 charecters"),
+    student: z.object({
+      name: userNameValidationSchema,
+      gender: z.enum(["male", "female"]),
+      dateOfBirth: z.string().optional(),
+      email: z
+        .string()
+        .email("Invalid email format")
+        .min(1, "Email is required"),
+      contactNo: z.string().min(1, "Contact number is required"),
+      emergencyContactNo: z
+        .string()
+        .min(1, "Emergency contact number is required"),
+      bloodGroup: z
+        .enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"])
+        .optional(),
+      presentAddress: z.string().min(1, "Present address is required"),
+      permanentAddress: z.string().min(1, "Permanent address is required"),
+      guardian: guardianValidationSchema,
+      localGuardian: localGuardianValidationShema,
+      profileImage: z.string().optional(),
+    }),
+  }),
 });
 
-export default studentValidationShema;
+export const studentValidationShema = {
+  createStudentValidationShema,
+};
