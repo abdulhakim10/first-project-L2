@@ -1,5 +1,4 @@
 import config from "../../config";
-import globalErrorHandler from "../../middlewares/globalErrorHandler";
 import { TStudent } from "../students/student.interface";
 import { Student } from "../students/student.model";
 import { TUser } from "./user.interface";
