@@ -4,7 +4,7 @@ import {
   AcademicSemisterCode,
   AcademicSemisterName,
   Months,
-} from "./academicSemister.constanct";
+} from "./academicSemister.constant";
 
 const academicSemisterSchema = new Schema<TAcademicSemister>(
   {
@@ -35,6 +35,19 @@ const academicSemisterSchema = new Schema<TAcademicSemister>(
     timestamps: true,
   }
 );
+
+academicSemisterSchema.pre("save", async function (next) {
+  const isSemisterExist = await AcademicSemister.findOne({
+    year: this.year,
+    name: this.name,
+  });
+
+  if (isSemisterExist) {
+    throw new Error("Semister already exist !");
+  }
+
+  next();
+});
 
 export const AcademicSemister = model<TAcademicSemister>(
   "AcademicSemister",
