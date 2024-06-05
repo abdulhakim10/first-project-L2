@@ -107,7 +107,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       enum: ["male", "female"],
       required: [true, "Gender is required"],
     },
-    dateOfBirth: Date,
+    dateOfBirth: String,
     email: {
       type: String,
       required: [true, "Email is required"],
@@ -145,6 +145,10 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     isDeleted: {
       type: Boolean,
       default: false,
+    },
+    admissionSemester: {
+      type: Schema.Types.ObjectId,
+      ref: "AcademicSemister",
     },
   },
   {

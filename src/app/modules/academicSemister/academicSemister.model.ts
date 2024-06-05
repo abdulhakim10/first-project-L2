@@ -24,10 +24,12 @@ const academicSemisterSchema = new Schema<TAcademicSemister>(
     },
     startMonth: {
       type: String,
+      required: true,
       enum: Months,
     },
     endMonth: {
       type: String,
+      required: true,
       enum: Months,
     },
   },
