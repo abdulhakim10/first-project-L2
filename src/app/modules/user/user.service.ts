@@ -1,6 +1,6 @@
 import config from "../../config";
 // import { TAcademicSemister } from "../academicSemister/academicSemister.interface";
-import { AcademicSemister } from "../academicSemister/academicSemister.model";
+import { AcademicSemester } from "../academicSemester/academicSemester.model";
 import { TStudent } from "../student/student.interface";
 import { Student } from "../student/student.model";
 import { TUser } from "./user.interface";
@@ -18,7 +18,7 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
   userData.role = "student";
 
   // find academic semester info
-  const admissionSemester = await AcademicSemister.findById(
+  const admissionSemester = await AcademicSemester.findById(
     payload.admissionSemester
   );
 

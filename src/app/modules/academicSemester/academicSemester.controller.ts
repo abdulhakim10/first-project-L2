@@ -1,10 +1,10 @@
 import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import { AcademicSemisterServices } from "./academicSemister.service";
+import { AcademicSemesterServices } from "./academicSemester.service";
 
-const createAcademicSemister = catchAsync(async (req, res) => {
-  const result = await AcademicSemisterServices.createAcademicSemisterIntoDB(
+const createAcademicSemester = catchAsync(async (req, res) => {
+  const result = await AcademicSemesterServices.createAcdemicSemesterIntoDB(
     req.body
   );
   sendResponse(res, {
@@ -19,7 +19,7 @@ const updateAcademicSemester = catchAsync(async (req, res) => {
   const semesterId = req.params.id;
   const payload = req.body;
 
-  const result = await AcademicSemisterServices.updateAcademicSemesterIntoDB(
+  const result = await AcademicSemesterServices.updateAcademicSemesterIntoDB(
     semesterId,
     payload
   );
@@ -31,8 +31,8 @@ const updateAcademicSemester = catchAsync(async (req, res) => {
   });
 });
 
-const getAllSemisters = catchAsync(async (req, res) => {
-  const result = await AcademicSemisterServices.getAllSemistersFromDB();
+const getAllSemesters = catchAsync(async (req, res) => {
+  const result = await AcademicSemesterServices.getAllSemestersFromDB();
   sendResponse(res, {
     statuseCode: httpStatus.OK,
     success: true,
@@ -41,9 +41,10 @@ const getAllSemisters = catchAsync(async (req, res) => {
   });
 });
 
-const getSingleSemisterById = catchAsync(async (req, res) => {
+const getSingleSemesterById = catchAsync(async (req, res) => {
   const semesterId: string = req.params.id;
-  const result = await AcademicSemisterServices.getSingleSemister(semesterId);
+  const result =
+    await AcademicSemesterServices.getSingleSemesterFromDB(semesterId);
   sendResponse(res, {
     statuseCode: httpStatus.OK,
     success: true,
@@ -52,9 +53,9 @@ const getSingleSemisterById = catchAsync(async (req, res) => {
   });
 });
 
-export const AcademicSemisterControllers = {
-  createAcademicSemister,
-  getAllSemisters,
-  getSingleSemisterById,
+export const AcademicSemesterControllers = {
+  createAcademicSemester,
+  getAllSemesters,
+  getSingleSemesterById,
   updateAcademicSemester,
 };
