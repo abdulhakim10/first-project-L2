@@ -35,7 +35,7 @@ const academicSemesterSchema = new Schema<TAcademicSemester>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 academicSemesterSchema.pre("save", async function (next) {
@@ -53,5 +53,5 @@ academicSemesterSchema.pre("save", async function (next) {
 
 export const AcademicSemester = model<TAcademicSemester>(
   "AcademicSemester",
-  academicSemesterSchema
+  academicSemesterSchema,
 );

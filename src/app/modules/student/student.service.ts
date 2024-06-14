@@ -18,7 +18,7 @@ const getStudentById = async (studentId: string) => {
 const deleteStudentById = async (studentId: string) => {
   const result = await Student.updateOne(
     { id: studentId },
-    { isDeleted: true }
+    { isDeleted: true },
   );
   return result;
 };

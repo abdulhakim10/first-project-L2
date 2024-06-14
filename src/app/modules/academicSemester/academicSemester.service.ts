@@ -13,7 +13,7 @@ const createAcdemicSemesterIntoDB = async (payload: TAcademicSemester) => {
 
 const updateAcademicSemesterIntoDB = async (
   semesterId: string,
-  payload: Partial<TAcademicSemester>
+  payload: Partial<TAcademicSemester>,
 ) => {
   if (
     payload.name &&
@@ -27,7 +27,7 @@ const updateAcademicSemesterIntoDB = async (
     payload,
     {
       new: true,
-    }
+    },
   );
   return result;
 };
