@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 // UserName Schema
-const userNameValidationSchema = z.object({
+const createUserNameValidationSchema = z.object({
   firstName: z
     .string()
     .max(20, "First Name can not be more than 20 characters")
@@ -15,7 +15,7 @@ const userNameValidationSchema = z.object({
 });
 
 // Guardian Schema
-const guardianValidationSchema = z.object({
+const createGuardianValidationSchema = z.object({
   fatherName: z.string().min(1, "Father's name is required"),
   fatherOccupation: z.string().min(1, "Father's occupation is required"),
   fatherContactNo: z.string().min(1, "Father's contact number is required"),
@@ -25,7 +25,7 @@ const guardianValidationSchema = z.object({
 });
 
 // LocalGuardian Schema
-const localGuardianValidationShema = z.object({
+const createLocalGuardianValidationSchema = z.object({
   name: z.string().min(1, "Local guardian's name is required"),
   occupation: z.string().min(1, "Local guardian's occupation is required"),
   contactNo: z.string().min(1, "Local guardian's contact number is required"),
@@ -40,7 +40,7 @@ const createStudentValidationShema = z.object({
       .min(6, "Password should be atleast 6 charecters")
       .max(20, "Password shouldn't be more than 20 charecters"),
     student: z.object({
-      name: userNameValidationSchema,
+      name: createUserNameValidationSchema,
       gender: z.enum(["male", "female"]),
       dateOfBirth: z.string().optional(),
       email: z
@@ -56,8 +56,8 @@ const createStudentValidationShema = z.object({
         .optional(),
       presentAddress: z.string().min(1, "Present address is required"),
       permanentAddress: z.string().min(1, "Permanent address is required"),
-      guardian: guardianValidationSchema,
-      localGuardian: localGuardianValidationShema,
+      guardian: createGuardianValidationSchema,
+      localGuardian: createLocalGuardianValidationSchema,
       admissionSemester: z.string(),
       academicDepartment: z.string(),
       profileImage: z.string().optional(),
@@ -65,6 +65,61 @@ const createStudentValidationShema = z.object({
   }),
 });
 
+const updateUserNameValidationSchema = z.object({
+  firstName: z.string().max(20).min(1).optional(),
+  middleName: z.string().optional(),
+  lastName: z.string().min(1).optional(),
+});
+
+// Guardian Schema
+const updateGuardianValidationSchema = z.object({
+  fatherName: z.string().min(1).optional(),
+  fatherOccupation: z.string().min(1).optional(),
+  fatherContactNo: z.string().min(1).optional(),
+  motherName: z.string().min(1).optional(),
+  motherOccupation: z.string().min(1).optional(),
+  motherContactNo: z.string().min(1).optional(),
+});
+
+// LocalGuardian Schema
+const updateLocalGuardianValidationSchema = z.object({
+  name: z.string().min(1).optional(),
+  occupation: z.string().min(1).optional(),
+  contactNo: z.string().min(1).optional(),
+  address: z.string().min(1).optional(),
+});
+
+// Student Schema
+const updateStudentValidationShema = z.object({
+  body: z.object({
+    student: z.object({
+      name: updateUserNameValidationSchema.optional(),
+      gender: z.enum(["male", "female"]).optional(),
+      dateOfBirth: z.string().optional(),
+      email: z.string().email("Invalid email format").min(1).optional(),
+      contactNo: z.string().min(1).optional(),
+      emergencyContactNo: z.string().min(1).optional(),
+      bloodGroup: z
+        .enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"])
+        .optional(),
+      presentAddress: z
+        .string()
+        .min(1, "Present address is required")
+        .optional(),
+      permanentAddress: z
+        .string()
+        .min(1, "Permanent address is required")
+        .optional(),
+      guardian: updateGuardianValidationSchema.optional(),
+      localGuardian: updateLocalGuardianValidationSchema.optional(),
+      admissionSemester: z.string().optional(),
+      academicDepartment: z.string().optional(),
+      profileImage: z.string().optional(),
+    }),
+  }),
+});
+
 export const StudentValidation = {
   createStudentValidationShema,
+  updateStudentValidationShema,
 };
