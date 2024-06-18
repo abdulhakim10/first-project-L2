@@ -5,7 +5,7 @@ import { AcademicSemesterServices } from "./academicSemester.service";
 
 const createAcademicSemester = catchAsync(async (req, res) => {
   const result = await AcademicSemesterServices.createAcdemicSemesterIntoDB(
-    req.body,
+    req.body
   );
   sendResponse(res, {
     statuseCode: httpStatus.OK,
@@ -21,7 +21,7 @@ const updateAcademicSemester = catchAsync(async (req, res) => {
 
   const result = await AcademicSemesterServices.updateAcademicSemesterIntoDB(
     semesterId,
-    payload,
+    payload
   );
   sendResponse(res, {
     statuseCode: httpStatus.OK,
@@ -42,7 +42,7 @@ const getAllSemesters = catchAsync(async (req, res) => {
 });
 
 const getSingleSemesterById = catchAsync(async (req, res) => {
-  const semesterId: string = req.params.id;
+  const { semesterId } = req.params;
   const result =
     await AcademicSemesterServices.getSingleSemesterFromDB(semesterId);
   sendResponse(res, {
