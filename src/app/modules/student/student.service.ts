@@ -31,32 +31,40 @@ const getStudentById = async (id: string) => {
 };
 
 const updateStudentIntoDB = async (id: string, payload: Partial<TStudent>) => {
+  const isExist = await Student.isUserExist(id);
+
+  if (!isExist) {
+    throw new AppError(httpStatus.NOT_FOUND, "This user does not exist");
+  }
+  // destructuring non primitive data
   const { name, guardian, localGuardian, ...remainingStudentData } = payload;
 
-  const modifiedUpdatedData: Record<string, unknown> = {
+  // declare an object to store modified data
+  const modifiedStudentData: Record<string, unknown> = {
     ...remainingStudentData,
   };
 
   if (name && Object.keys(name).length) {
     for (const [key, value] of Object.entries(name)) {
-      modifiedUpdatedData[`name.${key}`] = value;
+      modifiedStudentData[`name.${key}`] = value;
     }
   }
 
   if (guardian && Object.keys(guardian).length) {
     for (const [key, value] of Object.entries(guardian)) {
-      modifiedUpdatedData[`guardian.${key}`] = value;
+      modifiedStudentData[`guardian.${key}`] = value;
     }
   }
 
   if (localGuardian && Object.keys(localGuardian).length) {
     for (const [key, value] of Object.entries(localGuardian)) {
-      modifiedUpdatedData[`localGuardian.${key}`] = value;
+      modifiedStudentData[`localGuardian.${key}`] = value;
     }
   }
 
-  const result = await Student.findOneAndUpdate({ id }, modifiedUpdatedData, {
+  const result = await Student.findOneAndUpdate({ id }, modifiedStudentData, {
     new: true,
+    runValidators: true,
   });
   return result;
 };
@@ -65,7 +73,7 @@ const deleteStudentFromDB = async (id: string) => {
   const isExist = await Student.isUserExist(id);
 
   if (!isExist) {
-    throw new AppError(httpStatus.NOT_FOUND, "This user does not exifst");
+    throw new AppError(httpStatus.NOT_FOUND, "This user does not exist");
   }
 
   // step-1: create a session
@@ -103,7 +111,7 @@ const deleteStudentFromDB = async (id: string) => {
     // step-4: if the session failed abort the transaction and end the session
     await session.abortTransaction();
     await session.endSession();
-    throw new Error("Failed to delete studentf");
+    throw new Error("Failed to delete student");
   }
 };
 
