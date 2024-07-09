@@ -32,7 +32,9 @@ const updateAcademicSemester = catchAsync(async (req, res) => {
 });
 
 const getAllSemesters = catchAsync(async (req, res) => {
-  const result = await AcademicSemesterServices.getAllSemestersFromDB();
+  const result = await AcademicSemesterServices.getAllSemestersFromDB(
+    req.query
+  );
   sendResponse(res, {
     statuseCode: httpStatus.OK,
     success: true,
