@@ -31,7 +31,7 @@ const getSingleAcademicDepartmentById = catchAsync(async (req, res) => {
   const { departmentId } = req.params;
   const result =
     await AcademicDepartmentServices.getSingleAcademicDepartmentFromDB(
-      departmentId
+      departmentId,
     );
 
   sendResponse(res, {
@@ -47,7 +47,7 @@ const updateAcademicDepartment = catchAsync(async (req, res) => {
   const result =
     await AcademicDepartmentServices.updateAcademicDepartmentIntoDaB(
       departmentId,
-      req.body
+      req.body,
     );
 
   sendResponse(res, {

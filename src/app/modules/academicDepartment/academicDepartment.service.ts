@@ -8,11 +8,11 @@ const createAcademicDepartmentIntoDB = async (payload: TAcademicDepartment) => {
 };
 
 const getAllAcademicDepartmentFromDB = async (
-  query: Record<string, unknown>
+  query: Record<string, unknown>,
 ) => {
   const academicDepartmentQuery = new QueryBuilder(
     AcademicDepartment.find().populate("academicFaculty"),
-    query
+    query,
   )
     .filter()
     .sort()
@@ -30,12 +30,12 @@ const getSingleAcademicDepartmentFromDB = async (id: string) => {
 
 const updateAcademicDepartmentIntoDaB = async (
   id: string,
-  payload: TAcademicDepartment
+  payload: TAcademicDepartment,
 ) => {
   const result = await AcademicDepartment.findByIdAndUpdate(
     { _id: id },
     payload,
-    { new: true }
+    { new: true },
   );
   return result;
 };

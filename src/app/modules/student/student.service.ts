@@ -17,7 +17,7 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
           path: "academicFaculty",
         },
       }),
-    query
+    query,
   )
     .search(studentSearchableFields)
     .filter()
@@ -98,7 +98,7 @@ const deleteStudentFromDB = async (id: string) => {
     const deletedStudent = await Student.findOneAndUpdate(
       { id },
       { isDeleted: true },
-      { new: true, session } // transaction-1
+      { new: true, session }, // transaction-1
     );
 
     if (!deletedStudent) {
@@ -108,7 +108,7 @@ const deleteStudentFromDB = async (id: string) => {
     const deletedUser = await User.findOneAndUpdate(
       { id },
       { isDeleted: true },
-      { new: true, session } // transaction-2
+      { new: true, session }, // transaction-2
     );
 
     if (!deletedUser) {

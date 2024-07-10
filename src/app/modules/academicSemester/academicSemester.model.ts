@@ -47,7 +47,7 @@ academicSemesterSchema.pre("save", async function (next) {
   });
 
   if (isSemisterExist) {
-    throw new AppError(httpStatus.CONFLICT,"Semister already exist !");
+    throw new AppError(httpStatus.CONFLICT, "Semister already exist !");
   }
 
   next();
