@@ -87,7 +87,7 @@ const facultySchema = new Schema<TFaculty, FacultyModel>(
     toJSON: {
       virtuals: true,
     },
-  },
+  }
 );
 
 facultySchema.virtual("fullName").get(function () {
@@ -101,10 +101,24 @@ facultySchema.virtual("fullName").get(function () {
 });
 
 // query middleware
+facultySchema.pre("find", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+facultySchema.pre("findOne", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+facultySchema.pre("aggregate", function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
+});
 
 // implement the isUserExist method
 facultySchema.statics.isUserExist = async function (
-  id: string,
+  id: string
 ): Promise<TFaculty | null> {
   return await this.findOne({ id });
 };
