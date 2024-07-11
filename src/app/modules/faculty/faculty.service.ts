@@ -1,8 +1,14 @@
+import httpStatus from "http-status";
 import QueryBuilder from "../../builder/QueryBuilder";
+import AppError from "../../errors/AppError";
 import { Faculty } from "./faculty.model";
+import { TFaculty } from "./faculty.interface";
 
 const getAllFacultyFromDB = async (query: Record<string, unknown>) => {
-  const facultyQuery = new QueryBuilder(Faculty.find(), query)
+  const facultyQuery = new QueryBuilder(
+    Faculty.find().populate("academicFaculty"),
+    query,
+  )
     .filter()
     .fields()
     .sort()
@@ -13,11 +19,47 @@ const getAllFacultyFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleFacultyFromDB = async (id: string) => {
-  const result = await Faculty.findOne({ id });
+  const isExist = await Faculty.isUserExist(id);
+
+  if (!isExist) {
+    throw new AppError(httpStatus.NOT_FOUND, "This user does not exist!");
+  }
+
+  const result = await Faculty.findOne({ id }).populate("academicFaculty");
+  return result;
+};
+
+const updateFacultyintoDB = async (id: string, payload: Partial<TFaculty>) => {
+  const isExist = await Faculty.isUserExist(id);
+
+  if (!isExist) {
+    throw new AppError(httpStatus.NOT_FOUND, "This user does not exist!");
+  }
+
+  // destructuring the non premitive data
+  const { name, ...remainingFacultyData } = payload;
+
+  // declare an object to store modified data
+  const modifiedFacultyData: Record<string, unknown> = {
+    ...remainingFacultyData,
+  };
+
+  if (name && Object.keys(name).length) {
+    for (const [key, value] of Object.entries(name)) {
+      modifiedFacultyData[`name${key}`] = value;
+    }
+  }
+
+  const result = await Faculty.findOneAndUpdate({ id }, modifiedFacultyData, {
+    new: true,
+    runValidators: true,
+  });
+
   return result;
 };
 
 export const FacultyServices = {
   getAllFacultyFromDB,
   getSingleFacultyFromDB,
+  updateFacultyintoDB,
 };

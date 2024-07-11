@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { TFaculty, TUserName } from "./faculty.interface";
+import { FacultyModel, TFaculty, TUserName } from "./faculty.interface";
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -28,7 +28,7 @@ const userNameSchema = new Schema<TUserName>({
 //   },
 // });
 
-const facultySchema = new Schema<TFaculty>(
+const facultySchema = new Schema<TFaculty, FacultyModel>(
   {
     id: {
       type: String,
@@ -100,4 +100,13 @@ facultySchema.virtual("fullName").get(function () {
   );
 });
 
-export const Faculty = model<TFaculty>("Faculty", facultySchema);
+// query middleware
+
+// implement the isUserExist method
+facultySchema.statics.isUserExist = async function (
+  id: string,
+): Promise<TFaculty | null> {
+  return await this.findOne({ id });
+};
+
+export const Faculty = model<TFaculty, FacultyModel>("Faculty", facultySchema);

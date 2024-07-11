@@ -30,7 +30,12 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getStudentById = async (id: string) => {
-  //   const result = await Student.findOne({ id: studentId });
+  const isExist = await Student.isUserExist(id);
+
+  if (!isExist) {
+    throw new AppError(httpStatus.NOT_FOUND, "This user dose not exist!");
+  }
+
   const result = await Student.findOne({ id })
     .populate("admissionSemester")
     .populate({
