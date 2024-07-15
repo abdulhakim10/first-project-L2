@@ -113,4 +113,19 @@ adminSchema.statics.isUserExist = async function (
   return existingUser;
 };
 
+adminSchema.pre("find", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+adminSchema.pre("findOne", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+adminSchema.pre("aggregate", function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
+});
+
 export const Admin = model<TAdmin, AdminModel>("Admin", adminSchema);

@@ -52,8 +52,24 @@ const updateAdminIntoDB = async (id: string, payload: TAdmin) => {
   return result;
 };
 
+const deleteAdminFromDB = async (id: string) => {
+  const isExist = await Admin.isUserExist(id);
+
+  if (!isExist) {
+    throw new AppError(httpStatus.NOT_FOUND, "This user dose not exist");
+  }
+
+  const result = await Admin.findOneAndUpdate(
+    { id },
+    { isDeleted: true },
+    { new: true }
+  );
+  return result;
+};
+
 export const AdminServices = {
   getAllAdminsFromDB,
   getSingleAdminFromDB,
   updateAdminIntoDB,
+  deleteAdminFromDB,
 };
