@@ -24,7 +24,7 @@ const userNameSchema = new Schema<TUserName>({
 const adminSchema = new Schema<TAdmin, AdminModel>(
   {
     id: {
-      tyep: String,
+      type: String,
       required: [true, "Id is required"],
       unique: true,
     },

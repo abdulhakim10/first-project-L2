@@ -6,11 +6,17 @@ import { TStudent } from "../student/student.interface";
 import { Student } from "../student/student.model";
 import { TUser } from "./user.interface";
 import { User } from "./user.model";
-import { generatedFacultyId, generateStudentId } from "./user.utils";
+import {
+  generatedAdminId,
+  generatedFacultyId,
+  generateStudentId,
+} from "./user.utils";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
 import { TFaculty } from "../faculty/faculty.interface";
 import { Faculty } from "../faculty/faculty.model";
+import { TAdmin } from "../admin/admin.interface";
+import { Admin } from "../admin/admin.model";
 
 const createStudentIntoDB = async (password: string, payload: TStudent) => {
   // create a user object
@@ -24,7 +30,7 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
 
   // find academic semester info
   const admissionSemester = await AcademicSemester.findById(
-    payload.admissionSemester,
+    payload.admissionSemester
   );
 
   // null check to avoid typeScript error
@@ -114,9 +120,59 @@ const createFacultyIntoDB = async (password: string, payload: TFaculty) => {
   }
 };
 
+const createAdminIntoDB = async (password: string, payload: TAdmin) => {
+  // create a user object to stor data
+  const userData: Partial<TUser> = {};
+
+  // if password is not given set default password
+  userData.password = password || (config.default_password as string);
+
+  // set admin role
+  userData.role = "admin";
+
+  // step-1 start a session
+  const session = await mongoose.startSession();
+
+  try {
+    // step-2 start transaction
+    session.startTransaction();
+
+    // set generated id
+    userData.id = await generatedAdminId();
+
+    // create user (transaction-1) isolate session
+    const newUser = await User.create([userData], { session });
+
+    if (!newUser) {
+      throw new AppError(httpStatus.BAD_REQUEST, "Failed to create user");
+    }
+
+    payload.id = newUser[0].id;
+    payload.user = newUser[0]._id;
+
+    // create admin (transaction-2) isolate session
+    const newAdmin = await Admin.create([payload], { session });
+
+    if (!newAdmin) {
+      throw new AppError(httpStatus.BAD_REQUEST, "Failed to create admin");
+    }
+
+    // step-3 if session successfully done commit transaction and the session
+    await session.commitTransaction();
+    await session.endSession();
+    return newAdmin;
+  } catch (err: any) {
+    // if session is failed abort transaction and end the session
+    await session.abortTransaction();
+    await session.endSession();
+    throw new Error(err);
+  }
+};
+
 export const UserServices = {
   createStudentIntoDB,
   createFacultyIntoDB,
+  createAdminIntoDB,
 };
 
 // ----- creating custom static method -----
