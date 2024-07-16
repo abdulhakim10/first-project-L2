@@ -109,7 +109,7 @@ adminSchema.virtual("fullName").get(function () {
 adminSchema.statics.isUserExist = async function (
   id: string
 ): Promise<TAdmin | null> {
-  const existingUser = await Admin.findOne({ id });
+  const existingUser = await Admin.findById(id);
   return existingUser;
 };
 
