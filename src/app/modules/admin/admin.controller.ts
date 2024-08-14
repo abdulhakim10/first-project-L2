@@ -6,7 +6,7 @@ import { AdminServices } from "./admin.service";
 const getAllAdmins = catchAsync(async (req, res) => {
   const result = await AdminServices.getAllAdminsFromDB(req.query);
   sendResponse(res, {
-    statuseCode: httpStatus.OK,
+    statusCode: httpStatus.OK,
     success: true,
     message: "All Admin are fetched successfully",
     data: result,
@@ -18,7 +18,7 @@ const getAdminById = catchAsync(async (req, res) => {
   const result = await AdminServices.getSingleAdminFromDB(id);
 
   sendResponse(res, {
-    statuseCode: httpStatus.OK,
+    statusCode: httpStatus.OK,
     success: true,
     message: "Admin is fetched successfully",
     data: result,
@@ -32,7 +32,7 @@ const updateAdmin = catchAsync(async (req, res) => {
   const result = await AdminServices.updateAdminIntoDB(adminId, adminData);
 
   sendResponse(res, {
-    statuseCode: httpStatus.OK,
+    statusCode: httpStatus.OK,
     success: true,
     message: "Admin is updated successfully",
     data: result,
@@ -44,7 +44,7 @@ const deleteAdmin = catchAsync(async (req, res) => {
   const result = await AdminServices.deleteAdminFromDB(adminId);
 
   sendResponse(res, {
-    statuseCode: httpStatus.OK,
+    statusCode: httpStatus.OK,
     success: true,
     message: "Admin deleted successfully",
     data: result,

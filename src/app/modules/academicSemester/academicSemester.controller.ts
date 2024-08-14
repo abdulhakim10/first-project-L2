@@ -8,7 +8,7 @@ const createAcademicSemester = catchAsync(async (req, res) => {
     req.body,
   );
   sendResponse(res, {
-    statuseCode: httpStatus.OK,
+    statusCode: httpStatus.OK,
     success: true,
     message: "Academic Semister is created successfully",
     data: result,
@@ -24,7 +24,7 @@ const updateAcademicSemester = catchAsync(async (req, res) => {
     payload,
   );
   sendResponse(res, {
-    statuseCode: httpStatus.OK,
+    statusCode: httpStatus.OK,
     success: true,
     message: "Academic Semester updated successfully",
     data: result,
@@ -36,7 +36,7 @@ const getAllSemesters = catchAsync(async (req, res) => {
     req.query,
   );
   sendResponse(res, {
-    statuseCode: httpStatus.OK,
+    statusCode: httpStatus.OK,
     success: true,
     message: "All Academic Semisters fetched successfully",
     data: result,
@@ -48,7 +48,7 @@ const getSingleSemesterById = catchAsync(async (req, res) => {
   const result =
     await AcademicSemesterServices.getSingleSemesterFromDB(semesterId);
   sendResponse(res, {
-    statuseCode: httpStatus.OK,
+    statusCode: httpStatus.OK,
     success: true,
     message: "Academic Semister fetched successfully",
     data: result,
