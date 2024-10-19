@@ -114,7 +114,7 @@ const updateCourseIntoDB = async (id: string, payload: Partial<TCourse>) => {
       if (!newPreRequisitesCourses) {
         throw new AppError(
           httpStatus.BAD_REQUEST,
-          "Failed to add pre requiiste courses"
+          "Failed to add pre requisite courses"
         );
       }
     }

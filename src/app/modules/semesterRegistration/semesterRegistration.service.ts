@@ -35,7 +35,18 @@ const createSemesterRegistrationIntoDB = async (
   return result;
 };
 
+const getAllSemesterRegistrationFromDB = async () => {
+  const result = await SemesterRegistration.find().populate("academicSemester");
+  return result;
+};
+
+const getSingleSemesterRegistrationFromDB = async (id: string) => {
+  const result = await SemesterRegistration.findById(id).populate("academicSemester");
+  return result;
+};
+
 export const SemesterRegistrationServices = {
   createSemesterRegistrationIntoDB,
-  
+  getAllSemesterRegistrationFromDB,
+  getSingleSemesterRegistrationFromDB
 };
