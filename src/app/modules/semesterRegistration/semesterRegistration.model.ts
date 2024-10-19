@@ -39,4 +39,4 @@ const semesterRegistrationSchema = new Schema<TSemesterRegistration>({
 }
 );
 
-export const SemesterRegistrationModel = model<TSemesterRegistration>("SemesterRegistration", semesterRegistrationSchema);
+export const SemesterRegistration = model<TSemesterRegistration>("SemesterRegistration", semesterRegistrationSchema);
