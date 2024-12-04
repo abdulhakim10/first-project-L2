@@ -42,4 +42,9 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   return result;
 };
 
-export const OfferedCourseService = { createOfferedCourseIntoDB };
+const getAllOfferedCourseFromDB = async () => {
+  const result = await OfferedCourse.find();
+  return result;
+};
+
+export const OfferedCourseService = { createOfferedCourseIntoDB, getAllOfferedCourseFromDB };
