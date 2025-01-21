@@ -6,7 +6,7 @@ import sendResponse from "../../utils/sendResponse";
 const createSemesterRegistration = catchAsync(async (req, res) => {
   const result =
     await SemesterRegistrationServices.createSemesterRegistrationIntoDB(
-      req.body
+      req.body,
     );
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -19,7 +19,7 @@ const createSemesterRegistration = catchAsync(async (req, res) => {
 const getAllSemesterRegistration = catchAsync(async (req, res) => {
   const result =
     await SemesterRegistrationServices.getAllSemesterRegistrationFromDB(
-      req?.query
+      req?.query,
     );
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -46,7 +46,7 @@ const updateSemesterRegistration = catchAsync(async (req, res) => {
   const result =
     await SemesterRegistrationServices.updateSemesterRegistrationIntoDB(
       id,
-      req.body
+      req.body,
     );
   sendResponse(res, {
     statusCode: httpStatus.OK,

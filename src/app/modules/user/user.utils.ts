@@ -9,7 +9,7 @@ const findLastStudentId = async () => {
     {
       id: 1,
       _id: 0,
-    }
+    },
   )
     .sort({
       createdAt: -1,
@@ -25,7 +25,7 @@ const findLastFacultyId = async () => {
     {
       id: 1,
       _id: 0,
-    }
+    },
   )
     .sort({
       createdAt: -1,
@@ -41,7 +41,7 @@ const findLastAdminId = async () => {
     {
       id: 1,
       _id: 0,
-    }
+    },
   )
     .sort({
       createdAt: -1,

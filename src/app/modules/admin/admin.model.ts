@@ -92,7 +92,7 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
     toJSON: {
       virtuals: true,
     },
-  }
+  },
 );
 adminSchema.virtual("fullName").get(function () {
   return (
@@ -107,8 +107,9 @@ adminSchema.virtual("fullName").get(function () {
 // implement is user exist function
 
 adminSchema.statics.isUserExist = async function (
-  id: string
+  id: string,
 ): Promise<TAdmin | null> {
+  console.log(id);
   const existingUser = await Admin.findById(id);
   return existingUser;
 };

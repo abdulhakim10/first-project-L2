@@ -10,17 +10,17 @@ const router = express.Router();
 router.post(
   "/create-student",
   validateRequest(StudentValidation.createStudentValidationShema),
-  UserControllers.createStudent
+  UserControllers.createStudent,
 );
 router.post(
   "/create-faculty",
   validateRequest(FacultyValidation.createFacultyValidationSchema),
-  UserControllers.createFaculty
+  UserControllers.createFaculty,
 );
 router.post(
   "/create-admin",
   validateRequest(AdminValidations.createAdminValidationSchema),
-  UserControllers.createAdmin
+  UserControllers.createAdmin,
 );
 
 export const UserRoutes = router;

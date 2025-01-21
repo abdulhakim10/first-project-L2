@@ -61,7 +61,7 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   if (!isDepartmentBelongToAcademicFaculty) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      `The ${isAcademicDepartmentExist.name} does not belong to the ${isAcademicFAcultyExist.name}`
+      `The ${isAcademicDepartmentExist.name} does not belong to the ${isAcademicFAcultyExist.name}`,
     );
   }
 
@@ -76,7 +76,7 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   if (isSameOfferedCourseExistWithSameSectionInSameRegisteredSemester) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      `Offered course with same section is already exist`
+      `Offered course with same section is already exist`,
     );
   }
 
@@ -96,7 +96,7 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   if (hasTimeConflict(assignedSchedule, newSchedule)) {
     throw new AppError(
       httpStatus.CONFLICT,
-      "This faculty in not available at this time! Choose another time or day"
+      "This faculty in not available at this time! Choose another time or day",
     );
   }
 
@@ -106,7 +106,7 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
 
 const updateOfferedCourseIntoDB = async (
   id: string,
-  payload: Pick<TOfferedCourse, "faculty" | "days" | "startTime" | "endTime">
+  payload: Pick<TOfferedCourse, "faculty" | "days" | "startTime" | "endTime">,
 ) => {
   const { faculty, days, startTime, endTime } = payload;
   const isOfferedCourseExist = await OfferedCourse.findById(id);
@@ -128,7 +128,7 @@ const updateOfferedCourseIntoDB = async (
   if (semesterRegistrationStatus?.status !== "UPCOMING") {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      `You can not update this course as it is ${semesterRegistrationStatus?.status}`
+      `You can not update this course as it is ${semesterRegistrationStatus?.status}`,
     );
   }
 
@@ -148,7 +148,7 @@ const updateOfferedCourseIntoDB = async (
   if (hasTimeConflict(assignedSchedule, newSchedule)) {
     throw new AppError(
       httpStatus.CONFLICT,
-      "This faculty in not available at this time! Choose another time or day"
+      "This faculty in not available at this time! Choose another time or day",
     );
   }
   const result = await OfferedCourse.findByIdAndUpdate(id, payload, {
@@ -176,13 +176,13 @@ const deleteOfferedCourseFromDB = async (id: string) => {
 
   const semesterRegistrationId = isOfferedCourseExist.semesterRegistration;
   const semesterRegistrationStatus = await SemesterRegistration.findById(
-    semesterRegistrationId
+    semesterRegistrationId,
   ).select("status");
 
   if (semesterRegistrationStatus?.status !== "UPCOMING") {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      `You can not update this course as it is ${semesterRegistrationStatus?.status}`
+      `You can not update this course as it is ${semesterRegistrationStatus?.status}`,
     );
   }
   const result = await OfferedCourse.findByIdAndDelete(id);

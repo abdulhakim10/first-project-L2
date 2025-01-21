@@ -30,7 +30,7 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
 
   // find academic semester info
   const admissionSemester = await AcademicSemester.findById(
-    payload.admissionSemester
+    payload.admissionSemester,
   );
 
   // null check to avoid typeScript error

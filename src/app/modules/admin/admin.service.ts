@@ -27,7 +27,7 @@ const getSingleAdminFromDB = async (id: string) => {
   return result;
 };
 
-const updateAdminIntoDB = async (id: string, payload: TAdmin) => {
+const updateAdminIntoDB = async (id: string, payload: Partial<TAdmin>) => {
   const isExist = await Admin.isUserExist(id);
 
   if (!isExist) {
@@ -44,7 +44,7 @@ const updateAdminIntoDB = async (id: string, payload: TAdmin) => {
 
   if (name && Object.keys(name).length) {
     for (const [key, value] of Object.entries(name)) {
-      modifiedAdminData[`name${key}`] = value;
+      modifiedAdminData[`name.${key}`] = value;
     }
   }
 
@@ -73,7 +73,7 @@ const deleteAdminFromDB = async (id: string) => {
     const deleteAdmin = await Admin.findByIdAndUpdate(
       id,
       { isDeleted: true },
-      { new: true, session }
+      { new: true, session },
     );
 
     if (!deleteAdmin) {
@@ -87,7 +87,7 @@ const deleteAdminFromDB = async (id: string) => {
     const deleteUser = await User.findByIdAndUpdate(
       userId,
       { isDeleted: true },
-      { new: true, session }
+      { new: true, session },
     );
 
     if (!deleteUser) {

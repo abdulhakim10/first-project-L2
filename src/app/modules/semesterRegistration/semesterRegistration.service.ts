@@ -9,7 +9,7 @@ import mongoose from "mongoose";
 import { OfferedCourse } from "../offeredCourse/offeredCourse.model";
 
 const createSemesterRegistrationIntoDB = async (
-  payload: TSemesterRegistration
+  payload: TSemesterRegistration,
 ) => {
   const academicSemester = payload?.academicSemester;
 
@@ -22,7 +22,7 @@ const createSemesterRegistrationIntoDB = async (
   if (isThereAnyUpcomingOrOngoingSemester) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      `There has already an ${isThereAnyUpcomingOrOngoingSemester.status} registered semester!`
+      `There has already an ${isThereAnyUpcomingOrOngoingSemester.status} registered semester!`,
     );
   }
 
@@ -32,7 +32,7 @@ const createSemesterRegistrationIntoDB = async (
   if (!isAcademicSemesterExist) {
     throw new AppError(
       httpStatus.NOT_FOUND,
-      "This academic semester does not exist"
+      "This academic semester does not exist",
     );
   }
 
@@ -44,7 +44,7 @@ const createSemesterRegistrationIntoDB = async (
   if (isSemesterRegistrationExist) {
     throw new AppError(
       httpStatus.CONFLICT,
-      "This semester is already registered"
+      "This semester is already registered",
     );
   }
 
@@ -53,11 +53,11 @@ const createSemesterRegistrationIntoDB = async (
 };
 
 const getAllSemesterRegistrationFromDB = async (
-  query: Record<string, unknown>
+  query: Record<string, unknown>,
 ) => {
   const semesterRegistrationQuery = new QueryBuilder(
     SemesterRegistration.find().populate("academicSemester"),
-    query
+    query,
   )
     .filter()
     .sort()
@@ -75,7 +75,7 @@ const getSingleSemesterRegistrationFromDB = async (id: string) => {
 
 const updateSemesterRegistrationIntoDB = async (
   id: string,
-  payload: Partial<TSemesterRegistration>
+  payload: Partial<TSemesterRegistration>,
 ) => {
   // check if the semester registration is already exists
   const isSemesterRegistrationExist = await SemesterRegistration.findById(id);
@@ -90,7 +90,7 @@ const updateSemesterRegistrationIntoDB = async (
   if (currentSemesterStatus === RegistrationStatus.ENDED) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      `This Semester is already ${currentSemesterStatus}`
+      `This Semester is already ${currentSemesterStatus}`,
     );
   }
 
@@ -100,7 +100,7 @@ const updateSemesterRegistrationIntoDB = async (
   ) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      `Can not change the status directly from ${currentSemesterStatus} to ${requestedSemesterStatus}`
+      `Can not change the status directly from ${currentSemesterStatus} to ${requestedSemesterStatus}`,
     );
   }
 
@@ -110,7 +110,7 @@ const updateSemesterRegistrationIntoDB = async (
   ) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      `Can not change the status from ${currentSemesterStatus} to ${requestedSemesterStatus}`
+      `Can not change the status from ${currentSemesterStatus} to ${requestedSemesterStatus}`,
     );
   }
 
@@ -125,7 +125,7 @@ const deleteSemesterRegistrationFromDB = async (id: string) => {
   if (!isExist) {
     throw new AppError(
       httpStatus.NOT_FOUND,
-      "Semester Registration not found!"
+      "Semester Registration not found!",
     );
   }
 
@@ -134,7 +134,7 @@ const deleteSemesterRegistrationFromDB = async (id: string) => {
   if (semesterRegistrationStatus !== "UPCOMING") {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      `You can not delete this semester registration as it is ${semesterRegistrationStatus}`
+      `You can not delete this semester registration as it is ${semesterRegistrationStatus}`,
     );
   }
 
@@ -149,12 +149,12 @@ const deleteSemesterRegistrationFromDB = async (id: string) => {
       {
         semesterRegistration: id,
       },
-      session
+      session,
     );
     if (!deletedOfferedCourse) {
       throw new AppError(
         httpStatus.BAD_REQUEST,
-        "Failed to delete offered course!"
+        "Failed to delete offered course!",
       );
     }
 
@@ -164,7 +164,7 @@ const deleteSemesterRegistrationFromDB = async (id: string) => {
     if (!deletedSemesterRegistration) {
       throw new AppError(
         httpStatus.BAD_REQUEST,
-        "Failed to delete Semester Registration!"
+        "Failed to delete Semester Registration!",
       );
     }
     // step-3: if session successfully done commit transaction and end the session

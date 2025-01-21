@@ -93,7 +93,7 @@ const facultySchema = new Schema<TFaculty, FacultyModel>(
     toJSON: {
       virtuals: true,
     },
-  }
+  },
 );
 
 facultySchema.virtual("fullName").get(function () {
@@ -124,7 +124,7 @@ facultySchema.pre("aggregate", function (next) {
 
 // implement the isUserExist method
 facultySchema.statics.isUserExist = async function (
-  id: string
+  id: string,
 ): Promise<TFaculty | null> {
   return await this.findOne({ id });
 };

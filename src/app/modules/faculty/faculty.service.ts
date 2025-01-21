@@ -9,7 +9,7 @@ import { User } from "../user/user.model";
 const getAllFacultyFromDB = async (query: Record<string, unknown>) => {
   const facultyQuery = new QueryBuilder(
     Faculty.find().populate("academicFaculty"),
-    query
+    query,
   )
     .filter()
     .fields()
@@ -77,7 +77,7 @@ const deleteFacultyFromDB = async (id: string) => {
     const deletedFaculty = await Faculty.findOneAndUpdate(
       { id },
       { isDeleted: true },
-      { new: true, session }
+      { new: true, session },
     ); // transaction-1
 
     if (!deletedFaculty) {
@@ -87,7 +87,7 @@ const deleteFacultyFromDB = async (id: string) => {
     const deletedUser = await User.findOneAndUpdate(
       { id },
       { isDeleted: true },
-      { new: true, session }
+      { new: true, session },
     ); // transaction-2
 
     if (!deletedUser) {

@@ -8,7 +8,7 @@ const startTimeSchema = z.string().refine(
   },
   {
     message: "Invalid time format, expected HH:MM in 24 hours format",
-  }
+  },
 );
 const endTimeSchema = z.string().refine(
   (time) => {
@@ -17,7 +17,7 @@ const endTimeSchema = z.string().refine(
   },
   {
     message: "Invalid time format, expected HH:MM in 24 hours format",
-  }
+  },
 );
 
 const createOfferedCourseValidationSchema = z.object({
@@ -46,7 +46,7 @@ const createOfferedCourseValidationSchema = z.object({
       },
       {
         message: "Start time should be before end time",
-      }
+      },
     ),
 });
 const updateOfferedCourseValidationSchema = z.object({
@@ -69,7 +69,7 @@ const updateOfferedCourseValidationSchema = z.object({
       },
       {
         message: "Start time should be before end time",
-      }
+      },
     ),
 });
 

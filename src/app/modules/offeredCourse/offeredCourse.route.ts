@@ -8,7 +8,7 @@ const router = express.Router();
 router.post(
   "/create-offered-course",
   validateRequest(OfferedCourseValidation.createOfferedCourseValidationSchema),
-  OfferedCourseController.createOfferedCourse
+  OfferedCourseController.createOfferedCourse,
 );
 
 router.get("/:id", OfferedCourseController.getSingleOfferedCourse);
@@ -16,7 +16,7 @@ router.get("/:id", OfferedCourseController.getSingleOfferedCourse);
 router.patch(
   "/:id",
   validateRequest(OfferedCourseValidation.updateOfferedCourseValidationSchema),
-  OfferedCourseController.updateOfferedCourse
+  OfferedCourseController.updateOfferedCourse,
 );
 
 router.delete("/:id", OfferedCourseController.deleteOfferedCourse);
