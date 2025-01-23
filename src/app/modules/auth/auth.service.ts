@@ -35,11 +35,11 @@ const loginUser = async (payload: TLoginUser) => {
     role: user?.role,
   };
 
+  // JWT applied
   const accessToken = jwt.sign(jwtPayload, config.jwt_access_token as string, {
     expiresIn: "10d",
   });
 
-  // console.log();
   return {
     accessToken,
     needPasswordChange: user?.needsPasswordChange,
