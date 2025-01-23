@@ -57,16 +57,7 @@ userSchema.post("save", function (doc, next) {
 });
 
 userSchema.statics.isUserExistByCustomId = async function (id: string) {
-  console.log(id);
   return await User.findOne({ id });
-};
-
-userSchema.statics.isUserDeletedCheckByCustomId = async function (id: string) {
-  return await User.findOne({ id, isDeleted: { $ne: true } });
-};
-
-userSchema.statics.isUserBlockedCheckByCustomId = async function (id: string) {
-  return await User.findOne({ id, status: { $eq: "blocked" } });
 };
 
 userSchema.statics.isPasswordMatched = async function (
