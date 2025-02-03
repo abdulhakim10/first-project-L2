@@ -13,10 +13,14 @@ const userSchema = new Schema<TUser, UserModel>(
     password: {
       type: String,
       required: [true, "Password is required"],
+      select: 0,
     },
     needsPasswordChange: {
       type: Boolean,
       default: true,
+    },
+    passwordChangeAt: {
+      type: Date,
     },
     role: {
       type: String,
@@ -43,6 +47,7 @@ userSchema.pre("save", async function (next) {
   //  password hashing
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;
+  console.log("this" + this);
   user.password = await bcrypt.hash(
     user.password,
     Number(config.bcrypt_salt_round)
@@ -57,7 +62,7 @@ userSchema.post("save", function (doc, next) {
 });
 
 userSchema.statics.isUserExistByCustomId = async function (id: string) {
-  return await User.findOne({ id });
+  return await User.findOne({ id }).select("+password");
 };
 
 userSchema.statics.isPasswordMatched = async function (
