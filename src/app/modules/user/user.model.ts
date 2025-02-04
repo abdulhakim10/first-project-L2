@@ -47,7 +47,6 @@ userSchema.pre("save", async function (next) {
   //  password hashing
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;
-  console.log("this" + this);
   user.password = await bcrypt.hash(
     user.password,
     Number(config.bcrypt_salt_round)
@@ -70,6 +69,14 @@ userSchema.statics.isPasswordMatched = async function (
   hashPassword: string
 ) {
   return await bcrypt.compare(plainTextPassword, hashPassword);
+};
+
+userSchema.statics.isJwtIssuedBeforePasswordUpdate = function (
+  passwordChangeTimestamp: Date,
+  jwtIssuedTimestamp: number
+) {
+  const passwordChangeTime = new Date(passwordChangeTimestamp).getTime() / 1000;
+  return passwordChangeTime > jwtIssuedTimestamp;
 };
 
 export const User = model<TUser, UserModel>("User", userSchema);
